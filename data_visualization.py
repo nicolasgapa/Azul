@@ -18,26 +18,26 @@ azul_data = 'data\\FirstDataSet.csv'
 azul_df = pd.read_csv(azul_data, low_memory=False)
 azul_airports = list(set(list(azul_df['Origin']) + list(azul_df['Destination'])))
 df_airports = pd.read_json('airport_list.json')
-df_airports.columns = ['Airport', 'City', 'Country', 'IATA', 'ICAO', 'Latitude', 'Longitude', 'Elevation', 'TZ', 'DST', 'TZDB']
+df_airports.columns = ['Airport', 'City', 'Country', 'IATA', 'ICAO', 'Latitude', 'Longitude', 'Elevation', 'TZ', 'DST',
+                       'TZDB']
 brazilian_airports = df_airports[df_airports['IATA'].isin(azul_airports)]
 fig = go.Figure()
 
 print(df_airports)
-fig.add_trace(go.Scattergeo(
-    locationmode='USA-states',
-    lon=brazilian_airports['Longitude'],
-    lat=brazilian_airports['Latitude'],
-    hoverinfo='text',
-    text=brazilian_airports['Airport'],
-    mode='markers',
-    marker=dict(
-        size=2,
-        color='rgb(255, 0, 0)',
-        line=dict(
-            width=3,
-            color='rgba(68, 68, 68, 0)'
-        )
-    )))
+fig.add_trace(go.Scattergeo(locationmode='country names', lon=brazilian_airports['Longitude'],
+                            lat=brazilian_airports['Latitude'],
+                            hoverinfo='text',
+                            text=[name + ' ({})'.format(code) for name, code in
+                                  zip(brazilian_airports['Airport'], brazilian_airports['IATA'])],
+                            mode='markers',
+                            marker=dict(
+                                size=2,
+                                color='rgb(255, 0, 0)',
+                                line=dict(
+                                    width=3,
+                                    color='rgba(68, 68, 68, 0)'
+                                )
+                            )))
 
 df_flight_paths = pd.read_csv(
     'https://raw.githubusercontent.com/plotly/datasets/master/2011_february_aa_flight_paths.csv')
