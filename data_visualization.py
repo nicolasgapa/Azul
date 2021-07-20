@@ -12,11 +12,15 @@ import plotly.graph_objects as go
 
 
 # Functions.
-def od_bar_plot(df):
+def od_bar_plot(df, airline=None, year=None, month=None, day=None):
     """
     Create bar plots with the count of origin and destination flights.
 
     :param df: Data (pandas df).
+    :param airline: Airline code to filter.
+    :param year: Year to filter.
+    :param month: Month to filter.
+    :param day: Day to filter.
     :return: Displays the plot.
     """
 
@@ -26,16 +30,27 @@ def od_bar_plot(df):
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
 
+    # Filters.
+    if airline is not None:
+        df = df[df['Airline'] == airline]
+    if year is not None:
+        df = df[df['DepartureYear'] == year]
+    if month is not None:
+        df = df[df['DepartureMonth'] == month]
+    if day is not None:
+        df = df[df['DepartureDay'] == day]
+
     # Origin.
-    origin_count = df.groupby('Origin').count().rename(columns={'TaxiIn': 'ct'}).sort_values('ct', ascending=False)[
-        'ct']
+    origin_count = \
+        df.groupby('Origin').count().rename(columns={'DepartureYear': 'ct'}).sort_values('ct', ascending=False)[
+            'ct']
     ax1.bar(origin_count.index[:15], origin_count[:15])
     ax1.set_xlabel('Airport')
     ax1.set_ylabel('Number of Departing Flights')
 
     # Destination
     dest_count = \
-        df.groupby('Destination').count().rename(columns={'TaxiIn': 'ct'}).sort_values('ct', ascending=False)[
+        df.groupby('Destination').count().rename(columns={'DepartureYear': 'ct'}).sort_values('ct', ascending=False)[
             'ct']
     ax2.bar(dest_count.index[:15], dest_count[:15])
     ax2.set_xlabel('Airport')
@@ -169,6 +184,7 @@ def day_bar_plot(df, year, month, airport=None, airline=None):
 
     :param df: Dataset (from ANAC website).
     :param year: E.g. 2020
+    :param month: E.g. 6
     :param airport: IATA code (optional).
     :param airline: Code. E.g. AD for azul.
     :return: Plot.
@@ -214,9 +230,9 @@ def day_bar_plot(df, year, month, airport=None, airline=None):
     plt.show()
 
 
-# od_bar_plot(pd.read_csv('data\\azul_data.csv', low_memory=False))
+od_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False), year=2020, month=4, day=25)
 # fig = flights_map(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False),
 #                  pd.read_json('data\\airport_list.json'),
-#                  year=None, month=None, airline='AD')
-# month_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), year=2020)
-# day_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), 2020, 5, airline='AD', airport='CNF')
+#                  year=2020, month=None, airline='AD')
+# month_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), year=2020, airport='SDU')
+# day_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), 2020, 12, airport='SDU')

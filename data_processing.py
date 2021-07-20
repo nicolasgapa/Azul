@@ -77,7 +77,9 @@ def raw_to_csv(input_file, output_file, airport_data):
     print('File saved: {}.'.format(output_file))
 
 
-for i in ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']:
-    raw_to_csv('Data\\2020\\basica2020-{}.txt'.format(i),
-               'Data\\2020\\basica2020-{}.csv'.format(i),
-               pd.read_json('data\\airport_list.json'))
+
+
+# for i in ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']:
+#    raw_to_csv('Data\\2020\\basica2020-{}.txt'.format(i),
+#               'Data\\2020\\basica2020-{}.csv'.format(i),
+#               pd.read_json('data\\airport_list.json'))
