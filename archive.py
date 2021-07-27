@@ -44,3 +44,13 @@ for i in ['02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']:
     df_new = pd.read_csv('Data\\2020\\basica2020-{}.csv'.format(i), low_memory=False)
     df = pd.concat([df, df_new])
 df.to_csv('ANAC_2020.csv')
+
+# Code to create list of airport types.
+airports = pd.read_csv('data\\azul_data.csv')
+dict = {}
+for origin, type in zip(airports['Origin'], airports['TypeOfOriginAirport']):
+    dict[origin] = type
+for dest, type in zip(airports['Destination'], airports['TypeOfDestinationAirport']):
+    dict[dest] = type
+airport_types = pd.DataFrame.from_dict(dict, orient='index', columns=['Type'])
+airport_types.to_csv('data\\airport_types.csv')

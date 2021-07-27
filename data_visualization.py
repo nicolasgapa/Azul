@@ -230,9 +230,10 @@ def day_bar_plot(df, year, month, airport=None, airline=None):
     plt.show()
 
 
-od_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False), year=2020, month=4, day=25)
-# fig = flights_map(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False),
-#                  pd.read_json('data\\airport_list.json'),
-#                  year=2020, month=None, airline='AD')
+# od_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False), year=2020, month=4, day=25)
+fig = flights_map(pd.read_csv('data\\2020\\ANAC_2020.csv', low_memory=False),
+                  pd.read_json('data\\airport_list.json'),
+                  year=2020, month=None, airline='JJ')
+
 # month_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), year=2020, airport='SDU')
 # day_bar_plot(pd.read_csv('data\\2020\\ANAC_2020.csv'), 2020, 12, airport='SDU')
